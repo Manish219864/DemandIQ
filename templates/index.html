@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DemandIQ | Enterprise Retail Demand & Sales Forecasting</title>
+    <meta name="description" content="AI-powered demand intelligence and retail store sales prediction platform powered by machine learning.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-primary: #090d16;
+            --bg-secondary: #0f172a;
+            --bg-card: rgba(17, 24, 39, 0.75);
+            --bg-card-hover: rgba(24, 33, 53, 0.85);
+            --bg-input: rgba(15, 23, 42, 0.8);
+            
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-focus: #6366f1;
+            
+            --accent-primary: #6366f1;
+            --accent-primary-hover: #4f46e5;
+            --accent-cyan: #06b6d4;
+            --accent-emerald: #10b981;
+            --accent-amber: #f59e0b;
+            
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            
+            --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 18px;
+            --radius-xl: 24px;
+            
+            --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.35);
+            --shadow-glow: 0 0 35px rgba(99, 102, 241, 0.2);
+            --shadow-glow-emerald: 0 0 40px rgba(16, 185, 129, 0.25);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: var(--font-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 20%, rgba(99, 102, 241, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 85% 15%, rgba(6, 182, 212, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 50% 80%, rgba(16, 185, 129, 0.07) 0%, transparent 50%);
+            background-attachment: fixed;
+            padding-bottom: 60px;
+        }
+
+        /* Top Navigation Header */
+        header {
+            width: 100%;
+            border-bottom: 1px solid var(--border-subtle);
+            background: rgba(9, 13, 22, 0.85);
+            backdrop-filter: blur(16px);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand-group {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, #6366f1 0%, #06b6d4 100%);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.35);
+        }
+
+        .brand-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: none;
+            stroke: #ffffff;
+            stroke-width: 2.2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .brand-title {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(120deg, #ffffff 30%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .brand-badge {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            padding: 3px 8px;
+            background: rgba(99, 102, 241, 0.15);
+            color: #818cf8;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 20px;
+            margin-left: 8px;
+        }
+
+        .status-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border-subtle);
+            padding: 6px 14px;
+            border-radius: 30px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent-emerald);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent-emerald);
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.85); }
+        }
+
+        /* Main Container */
+        .main-wrapper {
+            max-width: 1100px;
+            width: 100%;
+            padding: 36px 20px;
+        }
+
+        /* Hero Intro */
+        .hero-banner {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .hero-title {
+            font-size: 34px;
+            font-weight: 800;
+            letter-spacing: -0.8px;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-desc {
+            font-size: 15px;
+            color: var(--text-secondary);
+            max-width: 680px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Quick Preset Chips */
+        .presets-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .presets-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .preset-btn {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-secondary);
+            font-size: 12px;
+            font-weight: 500;
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .preset-btn:hover {
+            background: rgba(99, 102, 241, 0.15);
+            border-color: rgba(99, 102, 241, 0.4);
+            color: #ffffff;
+            transform: translateY(-1px);
+        }
+
+        /* Prediction Result Box (If Available) */
+        .result-container {
+            margin-bottom: 32px;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-card {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(6, 182, 212, 0.08) 100%);
+            border: 1px solid rgba(16, 185, 129, 0.35);
+            border-radius: var(--radius-lg);
+            padding: 24px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow-glow-emerald);
+            backdrop-filter: blur(12px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .result-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #10b981, #06b6d4, #6366f1);
+        }
+
+        .result-info h3 {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #34d399;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .result-info p {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .result-metrics {
+            text-align: right;
+        }
+
+        .result-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .result-val {
+            font-family: var(--font-mono);
+            font-size: 36px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: -1px;
+            text-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .result-sub {
+            font-size: 13px;
+            color: #6ee7b7;
+            font-weight: 500;
+        }
+
+        /* Form Card */
+        .glass-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-xl);
+            padding: 36px;
+            box-shadow: var(--shadow-subtle), var(--shadow-glow);
+            backdrop-filter: blur(20px);
+        }
+
+        .form-section {
+            margin-bottom: 32px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .section-icon {
+            width: 34px;
+            height: 34px;
+            background: rgba(99, 102, 241, 0.12);
+            border: 1px solid rgba(99, 102, 241, 0.25);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #818cf8;
+        }
+
+        .section-icon svg {
+            width: 18px;
+            height: 18px;
+            stroke-width: 2.2;
+        }
+
+        .section-title {
+            font-size: 17px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            color: #ffffff;
+        }
+
+        .section-hint {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-left: auto;
+        }
+
+        /* Grid System */
+        .form-grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .form-grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        @media (max-width: 900px) {
+            .form-grid-3 { grid-template-columns: repeat(2, 1fr); }
+            .glass-card { padding: 24px; }
+            .hero-title { font-size: 28px; }
+        }
+
+        @media (max-width: 640px) {
+            .form-grid-3, .form-grid-2 { grid-template-columns: 1fr; }
+            .result-card { flex-direction: column; align-items: flex-start; gap: 16px; }
+            .result-metrics { text-align: left; }
+            .brand-badge { display: none; }
+        }
+
+        /* Form Group & Controls */
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #cbd5e1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .label-desc {
+            font-size: 11px;
+            font-weight: 400;
+            color: var(--text-muted);
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 14px;
+            color: var(--text-muted);
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .input-icon svg {
+            width: 17px;
+            height: 17px;
+        }
+
+        .form-control {
+            width: 100%;
+            background-color: var(--bg-input);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 12px 14px 12px 42px;
+            font-size: 14px;
+            color: var(--text-primary);
+            font-family: inherit;
+            transition: all 0.2s ease;
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .form-control:hover {
+            border-color: rgba(255, 255, 255, 0.16);
+            background-color: rgba(20, 30, 55, 0.9);
+        }
+
+        .form-control:focus {
+            border-color: var(--border-focus);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+            background-color: rgba(20, 30, 55, 0.95);
+        }
+
+        select.form-control {
+            cursor: pointer;
+            padding-right: 36px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            background-size: 16px;
+        }
+
+        select.form-control option {
+            background-color: #0f172a;
+            color: #f8fafc;
+            padding: 8px;
+        }
+
+        input[type="date"].form-control::-webkit-calendar-picker-indicator {
+            filter: invert(0.8);
+            cursor: pointer;
+        }
+
+        /* Auto-Sync Badge */
+        .sync-banner {
+            background: rgba(99, 102, 241, 0.08);
+            border: 1px dashed rgba(99, 102, 241, 0.35);
+            border-radius: var(--radius-md);
+            padding: 10px 14px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 12px;
+            color: #a5b4fc;
+        }
+
+        .sync-banner svg {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+            color: #818cf8;
+        }
+
+        /* Submit Button Area */
+        .form-footer {
+            margin-top: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .btn-predict {
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            color: #ffffff;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 700;
+            padding: 14px 32px;
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-predict:hover {
+            background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(99, 102, 241, 0.55);
+        }
+
+        .btn-predict:active {
+            transform: translateY(0);
+        }
+
+        .btn-predict svg {
+            width: 18px;
+            height: 18px;
+            transition: transform 0.2s ease;
+        }
+
+        .btn-predict:hover svg {
+            transform: translateX(3px);
+        }
+
+        .btn-reset {
+            background: transparent;
+            color: var(--text-secondary);
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 12px 20px;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-reset:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="header-container">
+            <div class="brand-group">
+                <div class="brand-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M3 3v18h18"></path>
+                        <path d="m19 9-5 5-4-4-3 3"></path>
+                    </svg>
+                </div>
+                <div>
+                    <span class="brand-title">DemandIQ</span>
+                    <span class="brand-badge">Forecasting Studio</span>
+                </div>
+            </div>
+            <div class="status-pill">
+                <span class="status-dot"></span>
+                <span>Model: Favorita Demand Engine</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="main-wrapper">
+
+        <!-- Hero Section -->
+        <div class="hero-banner">
+            <h1 class="hero-title">Retail Demand & Sales Prediction</h1>
+            <p class="hero-desc">
+                Select your store specifications, product family, promotion volume, and macroeconomic indices to forecast expected units and demand volume.
+            </p>
+            
+            <!-- Quick Load Presets -->
+            <div class="presets-row">
+                <span class="presets-label">Quick Scenarios:</span>
+                <button type="button" class="preset-btn" onclick="applyPreset(44, 'GROCERY I', 25, 52.4)">🏬 Quito Flagship (#44 - Grocery)</button>
+                <button type="button" class="preset-btn" onclick="applyPreset(51, 'BEVERAGES', 40, 52.4)">🛒 Guayaquil Super (#51 - Beverages)</button>
+                <button type="button" class="preset-btn" onclick="applyPreset(3, 'CLEANING', 12, 48.9)">🏪 Quito Downtown (#3 - Cleaning)</button>
+                <button type="button" class="preset-btn" onclick="applyPreset(11, 'DAIRY', 18, 55.0)">🧀 Cayambe Branch (#11 - Dairy)</button>
+            </div>
+        </div>
+
+        <!-- Prediction Result Display -->
+        {% if results is defined and results is not none and results != '' %}
+        <section class="result-container" id="prediction-result-box">
+            <div class="result-card">
+                <div class="result-info">
+                    <h3>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        Inference Completed
+                    </h3>
+                    <p>Estimated sales forecast based on trained model transformation pipeline.</p>
+                </div>
+                <div class="result-metrics">
+                    <span class="result-label">Predicted Demand / Sales</span>
+                    <div class="result-val">{{ results }}</div>
+                    <span class="result-sub">Expected Product Volume</span>
+                </div>
+            </div>
+        </section>
+        {% endif %}
+
+        <!-- Fallback if results passed as bare string outside if block -->
+        <noscript>
+            <h2>THE prediction is {{results}}</h2>
+        </noscript>
+
+        <!-- Prediction Form -->
+        <section class="glass-card">
+            <form action="{{ url_for('predict_datapoint') }}" method="post" id="prediction-form">
+                
+                <!-- SECTION 1: Store Configuration -->
+                <div class="form-section">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                            </svg>
+                        </div>
+                        <h2 class="section-title">1. Store Demographics & Profiling</h2>
+                        <span class="section-hint">Locations 1 to 54</span>
+                    </div>
+
+                    <div class="sync-banner">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        </svg>
+                        <span>Select a <strong>Store Number</strong> to automatically sync its official City, State, Store Type, and Cluster.</span>
+                    </div>
+
+                    <div class="form-grid-3">
+                        <!-- Store Number -->
+                        <div class="form-group">
+                            <label class="form-label" for="store_nbr">
+                                Store Number
+                                <span class="label-desc">ID (1-54)</span>
+                            </label>
+                            <div class="input-wrapper">
+                                <span class="input-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 7h10M7 12h10M7 17h10"/></svg>
+                                </span>
+                                <select class="form-control" id="store_nbr" name="store_nbr" required onchange="handleStoreChange(this.value)">
+                                    <option value="" disabled selected>Select Store Number</option>
+                                    {% for i in range(1, 55) %}
+                                    <option value="{{ i }}" {% if i == 44 %}selected{% endif %}>Store {{ i }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- City -->
+                        <div class="form-group">
+                            <label class="form-label" for="city">
+                                Store City
+                                <span class="label-desc">Location</span>
+                            </label>
+                            <div class="input-wrapper">
+                                <span class="input-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                                </span>
+                                <select class="form-control" id="city" name="city" required>
+                                    <option value="" disabled>Select City</option>
+                                    <option value="Ambato">Ambato</option>
+                                    <option value="Babahoyo">Babahoyo</option>
+                                    <option value="Cayambe">Cayambe</option>
+                                    <option value="Cuenca">Cuenca</option>
+                                    <option value="Daule">Daule</option>
+                                    <option value="El Carmen">El Carmen</option>
+                                    <option value="Esmeraldas">Esmeraldas</option>
+                                    <option value="Guaranda">Guaranda</option>
+                                    <option value="Guayaquil">Guayaquil</option>
+                                    <option value="Ibarra">Ibarra</option>
+                                    <option value="Latacunga">Latacunga</option>
+                                    <option value="Libertad">Libertad</option>
+                                    <option value="Loja">Loja</option>
+                                    <option value="Machala">Machala</option>
+                                    <option value="Manta">Manta</option>
+                                    <option value="Playas">Playas</option>
+                                    <option value="Puyo">Puyo</option>
+                                    <option value="Quevedo">Quevedo</option>
+                                    <option value="Quito" selected>Quito</option>
+                                    <option value="Riobamba">Riobamba</option>
+                                    <option value="Salinas">Salinas</option>
+                                    <option value="Santo Domingo">Santo Domingo</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- State -->
+                        <div class="form-group">
+                            <label class="form-label" for="state">
+                                Province / State
+                                <span class="label-desc">Administrative</span>
+                            </label>
+                            <div class="input-wrapper">
+                                <span class="input-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                                </span>
+                                <select class="form-control" id="state" name="state" required>
+                                    <option value="" disabled>Select State</option>
+                                    <option value="Azuay">Azuay</option>
+                                    <option value="Bolivar">Bolivar</option>
+                                    <option value="Chimborazo">Chimborazo</option>
+                                    <option value="Cotopaxi">Cotopaxi</option>
+                                    <option value="El Oro">El Oro</option>
+                                    <option value="Esmeraldas">Esmeraldas</option>
+                                    <option value="Guayas">Guayas</option>
+                                    <option value="Imbabura">Imbabura</option>
+                                    <option value="Loja">Loja</option>
+                                    <option value="Los Rios">Los Rios</option>
+                                    <option value="Manabi">Manabi</option>
+                                    <option value="Pastaza">Pastaza</option>
+                                    <option value="Pichincha" selected>Pichincha</option>
+                                    <option value="Santa Elena">Santa Elena</option>
+                                    <option value="Santo Domingo de los Tsachilas">Santo Domingo de los Tsachilas</option>
+                                    <option value="Tungurahua">Tungurahua</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Store Type -->
+                        <div class="form-group">
+                            <label class="form-label" for="type">
+                                Store Type
+                                <span class="label-desc">Format</span>
+                            </label>
+                            <div class="input-wrapper">
+                                <span class="input-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                                </span>
+                                <select class="form-control" id="type" name="type" required>
+                                    <option value="" disabled>Select Format</option>
+                                    <option value="A" selected>Type A (Flagship Superstore)</option>
+                                    <option value="B">Type B (Hypermarket)</option>
+                                    <option value="C">Type C (Supermarket)</option>
+                                    <option value="D">Type D (Urban Department)</option>
+                                    <option value="E">Type E (Express / Strip Mall)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Store Cluster -->
+                        <div class="form-group">
+                            <label class="form-label" for="cluster">
+                                Store Cluster
+                                <span class="label-desc">Behavioral Group (1-17)</span>
+                            </label>
+                            <div class="input-wrapper">
+                                <span class="input-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                                </span>
+                                <select class="form-control" id="cluster" name="cluster" required>
+                                    <option value="" disabled>Select Cluster</option>
+                                    {% for c in range(1, 18) %}
+                                    <option value="{{ c }}" {% if c == 5 %}selected{% endif %}>Cluster {{ c }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Forecast Date -->
+                        <div class="form-group">
+                            <label class="form-label" for="date">
+                                Forecast Date
+                                <span class="label-desc">Target Day</span>
+                            </label>
+                            <div class="input-wrapper">
+                                <span class="input-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                                </span>
+                                <input class="form-control" type="date" id="date" name="date" value="2017-08-16" required />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 2: Product & Promotions -->
+                <div class="form-section">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                                <line x1="3" y1="6" x2="21" y2="6"></line>
+                                <path d="M16 10a4 4 0 0 1-8 0"></path>
+                            </svg>
+                        </div>
+                        <h2 class="section-title">2. Product Category & Promotion Activity</h2>
+                        <span class="section-hint">33 Product Families</span>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <!-- Product Family -->
+                        <div class="form-group">
+                            <label class="form-label" for="family">
+                                Product Family
+                                <span class="label-desc">Merchandise Category</span>
+                            </label>
+                            <div class="input-wrapper">
+                                <span class="input-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+                                </span>
+                                <select class="form-control" id="family" name="family" required>
+                                    <option value="" disabled>Select Product Family</option>
+                                    <option value="AUTOMOTIVE">AUTOMOTIVE</option>
+                                    <option value="BABY CARE">BABY CARE</option>
+                                    <option value="BEAUTY">BEAUTY</option>
+                                    <option value="BEVERAGES">BEVERAGES</option>
+                                    <option value="BOOKS">BOOKS</option>
+                                    <option value="BREAD/BAKERY">BREAD/BAKERY</option>
+                                    <option value="CELEBRATION">CELEBRATION</option>
+                                    <option value="CLEANING">CLEANING</option>
+                                    <option value="DAIRY">DAIRY</option>
+                                    <option value="DELI">DELI</option>
+                                    <option value="EGGS">EGGS</option>
+                                    <option value="FROZEN FOODS">FROZEN FOODS</option>
+                                    <option value="GROCERY I" selected>GROCERY I</option>
+                                    <option value="GROCERY II">GROCERY II</option>
+                                    <option value="HARDWARE">HARDWARE</option>
+                                    <option value="HOME AND KITCHEN I">HOME AND KITCHEN I</option>
+                                    <option value="HOME AND KITCHEN II">HOME AND KITCHEN II</option>
+                                    <option value="HOME APPLIANCES">HOME APPLIANCES</option>
+                                    <option value="HOME CARE">HOME CARE</option>
+                                    <option value="LADIESWEAR">LADIESWEAR</option>
+                                    <option value="LAWN AND GARDEN">LAWN AND GARDEN</option>
+                                    <option value="LINGERIE">LINGERIE</option>
+                                    <option value="LIQUOR,WINE,BEER">LIQUOR,WINE,BEER</option>
+                                    <option value="MAGAZINES">MAGAZINES</option>
+                                    <option value="MEATS">MEATS</option>
+                                    <option value="PERSONAL CARE">PERSONAL CARE</option>
+                                    <option value="PET SUPPLIES">PET SUPPLIES</option>
+                                    <option value="PLAYERS AND ELECTRONICS">PLAYERS AND ELECTRONICS</option>
+                                    <option value="POULTRY">POULTRY</option>
+                                    <option value="PREPARED FOODS">PREPARED FOODS</option>
+                                    <option value="PRODUCE">PRODUCE</option>
+                                    <option value="SCHOOL AND OFFICE SUPPLIES">SCHOOL AND OFFICE SUPPLIES</option>
+                                    <option value="SEAFOOD">SEAFOOD</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- On Promotion Count -->
+                        <div class="form-group">
+                            <label class="form-label" for="onpromotion">
+                                Items on Promotion
+                                <span class="label-desc">SKUs active in discount</span>
+                            </label>
+                            <div class="input-wrapper">
+                                <span class="input-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                                </span>
+                                <input class="form-control" type="number" id="onpromotion" name="onpromotion" min="0" max="1000" step="1" value="15" placeholder="e.g. 15" required />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 3: Macroeconomic Indicator -->
+                <div class="form-section">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                            </svg>
+                        </div>
+                        <h2 class="section-title">3. Macroeconomic Indicator</h2>
+                        <span class="section-hint">Ecuador Petroleum Index</span>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <!-- Oil Price -->
+                        <div class="form-group">
+                            <label class="form-label" for="oil_price">
+                                Daily Crude Oil Price (WTI)
+                                <span class="label-desc">USD per barrel ($)</span>
+                            </label>
+                            <div class="input-wrapper">
+                                <span class="input-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+                                </span>
+                                <input class="form-control" type="number" id="oil_price" name="oil_price" min="10" max="150" step="0.01" value="53.50" placeholder="e.g. 53.50" required />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Footer -->
+                <div class="form-footer">
+                    <button type="button" class="btn-reset" onclick="resetForm()">Reset Defaults</button>
+                    
+                    <button type="submit" class="btn-predict" id="submit-btn">
+                        <span>Generate Demand Forecast</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <footer>
+            DemandIQ Retail Intelligence Platform &bull; Powered by Scikit-Learn Pipeline & CatBoost Regression
+        </footer>
+    </main>
+
+    <!-- Client-Side Intelligence & Store Metadata -->
+    <script>
+        // Official store directory from Favorita dataset
+        const STORE_DIRECTORY = {
+            "1": {"city": "Quito", "state": "Pichincha", "type": "D", "cluster": 13},
+            "2": {"city": "Quito", "state": "Pichincha", "type": "D", "cluster": 13},
+            "3": {"city": "Quito", "state": "Pichincha", "type": "D", "cluster": 8},
+            "4": {"city": "Quito", "state": "Pichincha", "type": "D", "cluster": 9},
+            "5": {"city": "Santo Domingo", "state": "Santo Domingo de los Tsachilas", "type": "D", "cluster": 4},
+            "6": {"city": "Quito", "state": "Pichincha", "type": "D", "cluster": 13},
+            "7": {"city": "Quito", "state": "Pichincha", "type": "D", "cluster": 8},
+            "8": {"city": "Quito", "state": "Pichincha", "type": "D", "cluster": 8},
+            "9": {"city": "Quito", "state": "Pichincha", "type": "B", "cluster": 6},
+            "10": {"city": "Quito", "state": "Pichincha", "type": "C", "cluster": 15},
+            "11": {"city": "Cayambe", "state": "Pichincha", "type": "B", "cluster": 6},
+            "12": {"city": "Latacunga", "state": "Cotopaxi", "type": "C", "cluster": 15},
+            "13": {"city": "Latacunga", "state": "Cotopaxi", "type": "C", "cluster": 15},
+            "14": {"city": "Riobamba", "state": "Chimborazo", "type": "C", "cluster": 7},
+            "15": {"city": "Ibarra", "state": "Imbabura", "type": "C", "cluster": 15},
+            "16": {"city": "Santo Domingo", "state": "Santo Domingo de los Tsachilas", "type": "C", "cluster": 3},
+            "17": {"city": "Quito", "state": "Pichincha", "type": "C", "cluster": 12},
+            "18": {"city": "Quito", "state": "Pichincha", "type": "B", "cluster": 16},
+            "19": {"city": "Guaranda", "state": "Bolivar", "type": "C", "cluster": 15},
+            "20": {"city": "Quito", "state": "Pichincha", "type": "B", "cluster": 6},
+            "21": {"city": "Santo Domingo", "state": "Santo Domingo de los Tsachilas", "type": "B", "cluster": 6},
+            "22": {"city": "Puyo", "state": "Pastaza", "type": "C", "cluster": 7},
+            "23": {"city": "Ambato", "state": "Tungurahua", "type": "D", "cluster": 9},
+            "24": {"city": "Guayaquil", "state": "Guayas", "type": "D", "cluster": 1},
+            "25": {"city": "Salinas", "state": "Santa Elena", "type": "D", "cluster": 1},
+            "26": {"city": "Guayaquil", "state": "Guayas", "type": "D", "cluster": 10},
+            "27": {"city": "Daule", "state": "Guayas", "type": "D", "cluster": 1},
+            "28": {"city": "Guayaquil", "state": "Guayas", "type": "E", "cluster": 10},
+            "29": {"city": "Guayaquil", "state": "Guayas", "type": "E", "cluster": 10},
+            "30": {"city": "Guayaquil", "state": "Guayas", "type": "C", "cluster": 3},
+            "31": {"city": "Babahoyo", "state": "Los Rios", "type": "B", "cluster": 10},
+            "32": {"city": "Guayaquil", "state": "Guayas", "type": "C", "cluster": 3},
+            "33": {"city": "Quevedo", "state": "Los Rios", "type": "C", "cluster": 3},
+            "34": {"city": "Guayaquil", "state": "Guayas", "type": "B", "cluster": 6},
+            "35": {"city": "Playas", "state": "Guayas", "type": "C", "cluster": 3},
+            "36": {"city": "Libertad", "state": "Guayas", "type": "E", "cluster": 10},
+            "37": {"city": "Cuenca", "state": "Azuay", "type": "D", "cluster": 2},
+            "38": {"city": "Loja", "state": "Loja", "type": "D", "cluster": 4},
+            "39": {"city": "Cuenca", "state": "Azuay", "type": "B", "cluster": 6},
+            "40": {"city": "Machala", "state": "El Oro", "type": "C", "cluster": 3},
+            "41": {"city": "Machala", "state": "El Oro", "type": "D", "cluster": 4},
+            "42": {"city": "Cuenca", "state": "Azuay", "type": "D", "cluster": 2},
+            "43": {"city": "Esmeraldas", "state": "Esmeraldas", "type": "E", "cluster": 10},
+            "44": {"city": "Quito", "state": "Pichincha", "type": "A", "cluster": 5},
+            "45": {"city": "Quito", "state": "Pichincha", "type": "A", "cluster": 11},
+            "46": {"city": "Quito", "state": "Pichincha", "type": "A", "cluster": 14},
+            "47": {"city": "Quito", "state": "Pichincha", "type": "A", "cluster": 14},
+            "48": {"city": "Quito", "state": "Pichincha", "type": "A", "cluster": 14},
+            "49": {"city": "Quito", "state": "Pichincha", "type": "A", "cluster": 11},
+            "50": {"city": "Ambato", "state": "Tungurahua", "type": "A", "cluster": 14},
+            "51": {"city": "Guayaquil", "state": "Guayas", "type": "A", "cluster": 17},
+            "52": {"city": "Manta", "state": "Manabi", "type": "A", "cluster": 11},
+            "53": {"city": "Manta", "state": "Manabi", "type": "D", "cluster": 13},
+            "54": {"city": "El Carmen", "state": "Manabi", "type": "C", "cluster": 3}
+        };
+
+        function handleStoreChange(storeId) {
+            const profile = STORE_DIRECTORY[String(storeId)];
+            if (!profile) return;
+
+            // Sync City
+            const cityEl = document.getElementById('city');
+            if (cityEl) cityEl.value = profile.city;
+
+            // Sync State
+            const stateEl = document.getElementById('state');
+            if (stateEl) stateEl.value = profile.state;
+
+            // Sync Format/Type
+            const typeEl = document.getElementById('type');
+            if (typeEl) typeEl.value = profile.type;
+
+            // Sync Cluster
+            const clusterEl = document.getElementById('cluster');
+            if (clusterEl) clusterEl.value = profile.cluster;
+        }
+
+        function applyPreset(storeNbr, family, onpromotion, oilPrice) {
+            const storeEl = document.getElementById('store_nbr');
+            if (storeEl) {
+                storeEl.value = storeNbr;
+                handleStoreChange(storeNbr);
+            }
+
+            const familyEl = document.getElementById('family');
+            if (familyEl) familyEl.value = family;
+
+            const promoEl = document.getElementById('onpromotion');
+            if (promoEl) promoEl.value = onpromotion;
+
+            const oilEl = document.getElementById('oil_price');
+            if (oilEl) oilEl.value = oilPrice;
+
+            // Smooth scroll to form
+            document.getElementById('prediction-form').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function resetForm() {
+            applyPreset(44, 'GROCERY I', 15, 53.50);
+        }
+
+        // On initial page load, if a store is selected, ensure synchronized dropdowns
+        document.addEventListener('DOMContentLoaded', () => {
+            const storeEl = document.getElementById('store_nbr');
+            if (storeEl && storeEl.value) {
+                handleStoreChange(storeEl.value);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+venv/
+.venv/
+.venv-1/
+
+# Logs and training artifacts
+logs/
+catboost_info/
+
+# Large dataset files (exceeds GitHub 100MB limit)
+notebook/Data/train.csv
+notebook/Data/*.xlsx
